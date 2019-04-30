@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	template="/templates/layout.xhtml">
+
+	<ui:define name="menutop">
+		<ui:include src="/includes/menutop.xhtml" />
+	</ui:define>
+
+	<ui:define name="container">
+
+		<h:form id="frmSoftwareModulos">
+			<p:dataTable id="tblSoftwareModulos" reflow="true" rows="10"
+				widgetVar="tblWSoftwareModulos" paginator="true"
+                                filteredValue="#{MBsoftwareModulos.softwareModulosPesq}"
+				emptyMessage="Nenhum registro encontrado"
+                                value="#{MBsoftwareModulos.softModulos}" var="obj">
+				<f:facet name="header">Lista de módulos de softwares</f:facet>
+				<p:column headerText="ID" sortBy="#{obj.idmodimp}"
+					filterMatchMode="contains" filterBy="#{obj.idmodimp}">
+					<h:outputText value="#{obj.idmodimp}" />
+				</p:column>
+				<p:column headerText="Descrição" sortBy="#{obj.descrimod}"
+					filterMatchMode="contains" filterBy="#{obj.descrimod}">
+					<h:outputText value="#{obj.descrimod}" />
+				</p:column>
+
+				<!-- 				<p:column headerText="C�d. Integra��o" sortBy="#{obj.codintegracao}" -->
+				<!-- 					filterMatchMode="contains" filterBy="#{obj.codintegracao}"> -->
+				<!-- 					<h:outputText value="#{obj.codintegracao}" /> -->
+				<!-- 				</p:column> -->
+
+<!--				<p:column headerText="Ativo">
+					<h:outputText value="#{obj.booFlagativo ? 'Sim' : 'Não'}" />
+				</p:column>
+				<p:column headerText="Admin">
+					<h:outputText value="#{obj.booUseradmin ? 'Sim' : 'Não'}" />
+				</p:column>
+-->				<p:column headerText="Opções">
+					<p:commandButton icon="ui-icon-trash"
+						oncomplete="PF('dlgInativarSoftwareModulos').show();"
+						update=":frmInativarSoftwareModulos:pnlInativarSoftwareModulos">
+						<f:setPropertyActionListener value="#{obj}"
+                                                                             target="#{MBsoftwareModulos.softwareModulos}"></f:setPropertyActionListener>
+					</p:commandButton>
+					<p:commandButton icon="ui-icon-pencil"
+						oncomplete="PF('dlgSoftwareModulosCad').show();"
+						update=":frmSoftwareModulosCad:pnlSoftwareModulosCad">
+						<f:setPropertyActionListener value="#{obj}"
+                                                                             target="#{MBsoftwareModulos.softwareModulos}"></f:setPropertyActionListener>
+					</p:commandButton>
+				</p:column>
+				<f:facet name="footer">
+					<p:commandButton value="Novo Registro"
+                                                         actionListener="#{MBsoftwareModulos.inserir()}"
+						oncomplete="PF('dlgSoftwareModulosCad').show();"
+						update=":frmSoftwareModulosCad:pnlSoftwareModulosCad" />
+				</f:facet>
+			</p:dataTable>
+		</h:form>
+		<p:dialog id="dlgSoftwareModulosCad" widgetVar="dlgSoftwareModulosCad"
+			closable="false" resizable="false" draggable="false" modal="true"
+			appendTo="@(body)" header="Cadastrar / Alterar Modulo de Software">
+			<h:form id="frmSoftwareModulosCad">
+				<h:panelGrid id="pnlSoftwareModulosCad" columns="2">
+					<h:outputLabel value="ID:" />
+                                        <h:outputText value="#{MBsoftwareModulos.softwareModulos.idmodimp}" />
+					<h:outputLabel value="Descrição:" />
+					<h:inputText size="50" maxlength="100"
+                                                     value="#{MBsoftwareModulos.softwareModulos.descrimod}" />
+
+							
+
+						<h:outputLabel value="Observação:" />
+						<h:inputText size="50" maxlength="50"
+                                                             value="#{MBsoftwareModulos.softwareModulos.obsmod}" />
+
+
+<!--                                                <h:outputText value="Tipo: " />
+                                                <p:password id="senha" value="#{MBsoftwareModulos.softwareModulos.tipomod}"
+							feedback="true" />-->
+
+
+<!--						<h:outputLabel value="Ativo?" />
+						<p:selectBooleanButton value="#{MBUsuario.usuario.booFlagativo}"
+							onLabel="Sim" offLabel="N�o" />-->
+					</h:panelGrid>
+					<h:panelGrid columns="2">
+						<p:commandButton id="brnGravarSoftwareModulos" value="Gravar" ajax="true"
+                                                                 actionListener="#{MBsoftwareModulos.gravar()}"
+							oncomplete="PF('dlgSoftwareModulosCad').hide();"
+							update=":msgGlobal :frmSoftwareModulos:tblSoftwareModulos" />
+						<p:commandButton value="Cancelar"
+							onclick="PF('dlgSoftwareModulosCad').hide();" />
+					</h:panelGrid>
+			</h:form>
+		</p:dialog>
+
+		<p:dialog id="dlgInativarSoftwareModulos" widgetVar="dlgInativarSoftwareModulos"
+			closable="false" resizable="false" draggable="false" modal="true"
+			appendTo="@(body)" header="Inativar">
+			<h:form id="frmInativarSoftwareModulos">
+				<h:panelGrid id="pnlInativarSoftwareModulos" columns="2">
+					<h:outputText value="Nome:" />
+                                        <h:outputText value="#{MBsoftwareModulos.softwareModulos.descrimod}" />
+					<h:outputText value="Descrição:" />
+                                        <h:outputText value="#{MBsoftwareModulos.softwareModulos.descrimod}" />
+				</h:panelGrid>
+				<h:panelGrid columns="2">
+					<p:commandButton id="brnConfirmarInativar" value="Confirmar"
+                                                         actionListener="#{MBsoftwareModulos.executarExcluir()}"
+						oncomplete="PF('dlgInativarSoftwareModulos').hide();"
+						update=":msgGlobal :frmSoftwareModulos:tblSoftwareModulos" />
+					<p:commandButton value="Cancelar"
+						onclick="PF('dlgInativarSoftwareModulos').hide();" />
+				</h:panelGrid>
+			</h:form>
+		</p:dialog>
+	</ui:define>
+</ui:composition>

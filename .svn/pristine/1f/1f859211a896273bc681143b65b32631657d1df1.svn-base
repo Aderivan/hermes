@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	template="/templates/layout.xhtml">
+
+	<ui:define name="menutop">
+		<ui:include src="/includes/menutop.xhtml" />
+	</ui:define>
+
+	<ui:define name="container">
+
+		<h:form id="frmUsuario">
+			<p:dataTable id="tblUsuario" reflow="true" rows="10"
+				widgetVar="tblWUsuario" paginator="true"
+				filteredValue="#{MBUsuario.usuariosPesq}"
+				emptyMessage="Nenhum registro encontrado"
+				value="#{MBUsuario.usuarios}" var="obj">
+				<f:facet name="header">Lista de Usu�rios</f:facet>
+				<p:column headerText="ID" sortBy="#{obj.userid}"
+					filterMatchMode="contains" filterBy="#{obj.userid}">
+					<h:outputText value="#{obj.userid}" />
+				</p:column>
+				<p:column headerText="Nome" sortBy="#{obj.nome}"
+					filterMatchMode="contains" filterBy="#{obj.nome}">
+					<h:outputText value="#{obj.nome}" />
+				</p:column>
+
+				<!-- 				<p:column headerText="C�d. Integra��o" sortBy="#{obj.codintegracao}" -->
+				<!-- 					filterMatchMode="contains" filterBy="#{obj.codintegracao}"> -->
+				<!-- 					<h:outputText value="#{obj.codintegracao}" /> -->
+				<!-- 				</p:column> -->
+
+				<p:column headerText="Ativo">
+					<h:outputText value="#{obj.booFlagativo ? 'Sim' : 'N�o'}" />
+				</p:column>
+				<p:column headerText="Admin">
+					<h:outputText value="#{obj.booUseradmin ? 'Sim' : 'N�o'}" />
+				</p:column>
+				<p:column headerText="Op��es">
+					<p:commandButton icon="ui-icon-trash"
+						oncomplete="PF('dlgInativarUsuario').show();"
+						update=":frmInativarUsuario:pnlInativarUsuario">
+						<f:setPropertyActionListener value="#{obj}"
+							target="#{MBUsuario.usuario}"></f:setPropertyActionListener>
+					</p:commandButton>
+					<p:commandButton icon="ui-icon-pencil"
+						oncomplete="PF('dlgUsuarioCad').show();"
+						update=":frmUsuarioCad:pnlUsuarioCad">
+						<f:setPropertyActionListener value="#{obj}"
+							target="#{MBUsuario.usuario}"></f:setPropertyActionListener>
+					</p:commandButton>
+				</p:column>
+				<f:facet name="footer">
+					<p:commandButton value="Novo Registro"
+						actionListener="#{MBUsuario.inserir}"
+						oncomplete="PF('dlgUsuarioCad').show();"
+						update=":frmUsuarioCad:pnlUsuarioCad" />
+				</f:facet>
+			</p:dataTable>
+		</h:form>
+		<p:dialog id="dlgUsuarioCad" widgetVar="dlgUsuarioCad"
+			closable="false" resizable="false" draggable="false" modal="true"
+			appendTo="@(body)" header="Cadastrar / Alterar Usuario">
+			<h:form id="frmUsuarioCad">
+				<h:panelGrid id="pnlUsuarioCad" columns="2">
+					<h:outputLabel value="ID:" />
+					<h:outputText value="#{MBUsuario.usuario.userid}" />
+					<h:outputLabel value="Descrição:" />
+					<h:inputText size="50" maxlength="100"
+						value="#{MBUsuario.usuario.nome}" />
+
+							
+
+						<h:outputLabel value="Email" />
+						<h:inputText size="50" maxlength="50"
+							value="#{MBUsuario.usuario.email}" />
+
+
+						<h:outputText value="Senha: " />
+						<p:password id="senha" value="#{MBUsuario.usuario.password}"
+							feedback="true" />
+
+
+						<h:outputLabel value="Ativo?" />
+						<p:selectBooleanButton value="#{MBUsuario.usuario.booFlagativo}"
+							onLabel="Sim" offLabel="N�o" />
+					</h:panelGrid>
+					<h:panelGrid columns="2">
+						<p:commandButton id="brnGravarUsuario" value="Gravar" ajax="true"
+							actionListener="#{MBUsuario.gravar}"
+							oncomplete="PF('dlgUsuarioCad').hide();"
+							update=":msgGlobal :frmUsuario:tblUsuario" />
+						<p:commandButton value="Cancelar"
+							onclick="PF('dlgUsuarioCad').hide();" />
+					</h:panelGrid>
+			</h:form>
+		</p:dialog>
+
+		<p:dialog id="dlgInativarUsuario" widgetVar="dlgInativarUsuario"
+			closable="false" resizable="false" draggable="false" modal="true"
+			appendTo="@(body)" header="Inativar">
+			<h:form id="frmInativarUsuario">
+				<h:panelGrid id="pnlInativarUsuario" columns="2">
+					<h:outputText value="Nome:" />
+					<h:outputText value="#{MBUsuario.usuario.nome}" />
+					<h:outputText value="Descrição:" />
+					<h:outputText value="#{MBUsuario.usuario.nome}" />
+				</h:panelGrid>
+				<h:panelGrid columns="2">
+					<p:commandButton id="brnConfirmarInativar" value="Confirmar"
+						actionListener="#{MBUsuario.executarInativar}"
+						oncomplete="PF('dlgInativarUusuario').hide();"
+						update=":msgGlobal :frmUsuario:tblUsuario" />
+					<p:commandButton value="Cancelar"
+						onclick="PF('dlgInativarUsuario').hide();" />
+				</h:panelGrid>
+			</h:form>
+		</p:dialog>
+	</ui:define>
+</ui:composition>

@@ -1,0 +1,9 @@
+package br.com.apsinformatica.infra;
+
+public class AppSystem {
+
+	public static final String PATH_EMPRESA = "Aps";
+	public static final String PATH_SYSTEM = "Genix";
+	public static final String PATH_USUARIO = System.getProperty("user.dir");
+	public static final String SYSTEM_VERSION = "01.00.00.00";
+}

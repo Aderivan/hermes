@@ -1,0 +1,60 @@
+package br.com.apsinformatica.dao;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import br.com.apsinformatica.domain.Login;
+import br.com.apsinformatica.domain.Usuario;
+import br.com.apsinformatica.infra.SecurityUtil;
+
+public class UsuarioDao {
+
+    public Login getAutenticarUsuario(String pUsulogin, String pUsusenha) {
+        Login u = new Login();
+        List<Usuario> lista = new ArrayList<Usuario>();
+        MyDao.instance().createEntityManager();
+        lista = MyDao.instance().getEntityManager()
+                .createQuery(
+                        "select u from Usuario u where u.flagativo = 1 and u.login = :login and u.password = :password")
+                .setParameter("login", pUsulogin.toUpperCase()).setParameter("password", SecurityUtil.MD5(pUsusenha))
+                .getResultList();
+
+        if (lista.size() > 0) {
+            u.setUsuario(lista.get(0).getLogin());
+            u.setNome(lista.get(0).getNome());
+            u.setEmail(lista.get(0).getEmail());
+        }
+        return u;
+    }
+
+    public List<Usuario> getListar() {
+        List<Usuario> lista = new ArrayList<Usuario>();
+        try {
+            MyDao.instance().createEntityManager();
+            lista = MyDao.instance().getEntityManager().createQuery("select u from Usuario u").getResultList();
+        } finally {
+            MyDao.instance().close();
+        }
+        return lista;
+    }
+
+    public Usuario getListaPorId(String uId) {
+        Usuario entidade = new Usuario();
+        try {
+            MyDao.instance().createEntityManager();
+            entidade = MyDao.instance().getEntityManager().find(Usuario.class, uId);
+        } finally {
+            MyDao.instance().close();
+        }
+        return entidade;
+    }
+
+    public void inserir(Usuario pUsuario) {
+        MyDao.instance().persist(pUsuario);
+    }
+
+    public void atualizar(Usuario pUsuario) {
+        MyDao.instance().merge(pUsuario);
+    }
+
+}

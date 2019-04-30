@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                template="/templates/layout.xhtml">
+
+    <ui:define name="headerCss">
+    </ui:define>    
+    <ui:define name="headerJs">
+    </ui:define>    
+
+
+
+    <ui:define name="menutop">
+        <ui:include src="/includes/menutop.xhtml" />
+    </ui:define>
+
+    <ui:define name="container">
+
+        <h:form id="frmStatus">
+            <p:dataTable id="tblStatus" reflow="true" rows="10"
+                         widgetVar="tblWSobre" paginator="true"
+                         filteredValue="#{MBStatus.listStatus}"
+                         emptyMessage="Nenhum registro encontrado"
+                         value="#{MBStatus.listStatus}" var="obj">
+                <f:facet name="header">Lista de Status</f:facet>
+                <p:column headerText="ID" sortBy="#{obj.stat_id}"
+                          filterMatchMode="contains" filterBy="#{obj.stat_id}">
+                    <h:outputText value="#{obj.stat_id}" />
+                </p:column>
+                <p:column headerText="status" sortBy="#{obj.status}"
+                          filterMatchMode="contains" filterBy="#{obj.status}">
+                    <h:outputText value="#{obj.status}" />
+                </p:column>
+          
+
+                <p:column headerText="Opções">
+                    <p:commandButton icon="ui-icon-trash"
+                                     oncomplete="PF('dlgInativarStatus').show();"
+                                     update=":frmInativarStatus:pnlInativarStatus">
+                        <f:setPropertyActionListener value="#{obj}"
+                                                     target="#{MBStatus.status}"></f:setPropertyActionListener>
+                    </p:commandButton>
+                    <p:commandButton icon="ui-icon-pencil"
+                                     oncomplete="PF('dlgStatusCad').show();"
+                                     update=":frmStatusCad:pnlStatusCad">
+                        <f:setPropertyActionListener value="#{obj}"
+                                                     target="#{MBStatus.status}"></f:setPropertyActionListener>
+                    </p:commandButton>
+                </p:column>
+                
+                
+                <f:facet name="footer">
+                    <p:commandButton value="Novo Registro"
+                                     actionListener="#{MBStatus.inserir()}"
+                                     oncomplete="PF('dlgStatusCad').show();"
+                                     update=":frmStatusCad:pnlStatusCad"/>
+
+                </f:facet>
+            </p:dataTable>
+        </h:form>
+        <p:dialog id="dlgStatusCad" widgetVar="dlgStatusCad"
+                  closable="false" resizable="false" draggable="false" modal="true"
+                  appendTo="@(body)" header="Cadastrar / Alterar Status">
+            <h:form id="frmStatusCad">
+                <h:panelGrid id="pnlStatusCad" columns="2">
+                    <h:outputLabel value="ID:" />
+                    <h:outputText value="#{MBStatus.status.stat_id}" />
+                    <h:outputLabel value="Status" />
+                    <h:inputText size="50" maxlength="100"
+                                 value="#{MBStatus.status.status}" />                   
+
+                </h:panelGrid>
+                <h:panelGrid columns="2">
+                    <p:commandButton id="brnGravarStatus" value="Gravar" ajax="true"
+                                     actionListener="#{MBStatus.gravar()}"
+                                     oncomplete="PF('dlgStatusCad').hide();"
+                                     update=":msgGlobal :frmStatus:tblStatus" />
+                    <p:commandButton value="Cancelar"
+                                     onclick="PF('dlgStatusCad').hide();" />
+                </h:panelGrid>
+            </h:form>
+        </p:dialog>
+
+        <p:dialog id="dlgInativarStatus" widgetVar="dlgInativarStatus"
+                  closable="false" resizable="false" draggable="false" modal="true"
+                  appendTo="@(body)" header="Inativar">
+            <h:form id="frmInativarStatus">
+                <h:panelGrid id="pnlInativarStatus" columns="2">
+                    <h:outputText value="Nome:" />
+                    <h:outputText value="#{MBStatus.status.stat_id}" />
+                    <h:outputText value="Descrição:" />
+                    <h:outputText value="#{MBStatus.status.status}" />
+                </h:panelGrid>
+                <h:panelGrid columns="2">
+                    <p:commandButton id="brnConfirmarInativar" value="Confirmar"
+                                     actionListener="#{MBStatus.executarExcluir()}"
+                                     oncomplete="PF('dlgInativarStatus').hide();"
+                                     update=":msgGlobal :frmStatus:tblStatus" />
+                    <p:commandButton value="Cancelar"
+                                     onclick="PF('dlgInativarStatus').hide();" />
+                </h:panelGrid>
+            </h:form>
+        </p:dialog>
+    </ui:define>
+
+    <ui:define name="footerCss">
+    </ui:define>    
+    <ui:define name="footerJs">
+    </ui:define>    
+
+
+
+</ui:composition>

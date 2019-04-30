@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                template="/templates/layout.xhtml">
+
+    <ui:define name="headerCss">
+    </ui:define>    
+    <ui:define name="headerJs">
+    </ui:define>    
+
+
+
+    <ui:define name="menutop">
+        <ui:include src="/includes/menutop.xhtml" />
+    </ui:define>
+
+    <ui:define name="container">
+
+        <h:form id="frmSetor">
+            <p:dataTable id="tblSetor" reflow="true" rows="10"
+                         widgetVar="tblWSobre" paginator="true"
+                         filteredValue="#{MBSetor.setoresPesq}"
+                         emptyMessage="Nenhum registro encontrado"
+                         value="#{MBSetor.setores}" var="obj">
+                <f:facet name="header">Lista setores</f:facet>
+                <p:column headerText="ID" sortBy="#{obj.sis_id}"
+                          filterMatchMode="contains" filterBy="#{obj.sis_id}">
+                    <h:outputText value="#{obj.sis_id}" />
+                </p:column>
+                <p:column headerText="Setor" sortBy="#{obj.sistema}"
+                          filterMatchMode="contains" filterBy="#{obj.sistema}">
+                    <h:outputText value="#{obj.sistema}" />
+                </p:column>
+
+                <p:column headerText="Email" sortBy="#{obj.email}"
+                          filterMatchMode="contains" filterBy="#{obj.email}">
+                    <h:outputText value="#{obj.email}" />
+                </p:column>
+
+                <p:column headerText="Opções">
+					<p:commandButton icon="ui-icon-trash"
+						oncomplete="PF('dlgInativarSetor').show();"
+						update=":frmInativarSetor:pnlInativarSetor">
+						<f:setPropertyActionListener value="#{obj}"
+                                                                             target="#{MBSetor.setor}"></f:setPropertyActionListener>
+					</p:commandButton>
+					<p:commandButton icon="ui-icon-pencil"
+						oncomplete="PF('dlgSetorCad').show();"
+						update=":frmSetorCad:pnlSetorCad">
+						<f:setPropertyActionListener value="#{obj}"
+                                                                             target="#{MBSetor.setor}"></f:setPropertyActionListener>
+					</p:commandButton>
+				</p:column>
+                
+                
+                <f:facet name="footer">
+                    <p:commandButton value="Novo Registro"
+                                     actionListener="#{MBSetor.inserir()}"
+                                     oncomplete="PF('dlgSetorCad').show();"
+                                     update=":frmSetorCad:pnlSetorCad"/>
+
+                </f:facet>
+            </p:dataTable>
+        </h:form>
+        <p:dialog id="dlgSetorCad" widgetVar="dlgSetorCad"
+                  closable="false" resizable="false" draggable="false" modal="true"
+                  appendTo="@(body)" header="Cadastrar / Alterar Setor">
+            <h:form id="frmSetorCad">
+                <h:panelGrid id="pnlSetorCad" columns="2">
+                    <h:outputLabel value="ID:" />
+                    <h:outputText value="#{MBSetor.setor.sis_id}" />
+                    <h:outputLabel value="Setor" />
+                    <h:inputText size="50" maxlength="100"
+                                 value="#{MBSetor.setor.sistema}" />
+
+
+
+                    <h:outputLabel value="Email" />
+                    <h:inputText size="50" maxlength="50"
+                                 value="#{MBSetor.setor.email}" />
+
+                </h:panelGrid>
+                <h:panelGrid columns="2">
+                    <p:commandButton id="brnGravarSetor" value="Gravar" ajax="true"
+                                     actionListener="#{MBSetor.gravar()}"
+                                     oncomplete="PF('dlgSetorCad').hide();"
+                                     update=":msgGlobal :frmSetor:tblSetor" />
+                    <p:commandButton value="Cancelar"
+                                     onclick="PF('dlgSetorCad').hide();" />
+                </h:panelGrid>
+            </h:form>
+        </p:dialog>
+
+        <p:dialog id="dlgInativarSetor" widgetVar="dlgInativarSetor"
+                  closable="false" resizable="false" draggable="false" modal="true"
+                  appendTo="@(body)" header="Inativar">
+            <h:form id="frmInativarSetor">
+                <h:panelGrid id="pnlInativarSetor" columns="2">
+                    <h:outputText value="ID:" />
+                    <h:outputText value="#{MBSetor.setor.sis_id}" />
+                    <h:outputText value="Descrição:" />
+                    <h:outputText value="#{MBSetor.setor.sistema}" />
+                </h:panelGrid>
+                <h:panelGrid columns="2">
+                    <p:commandButton id="brnConfirmarInativar" value="Confirmar"
+                                     actionListener="#{MBSetor.executarExcluir()}"
+                                     oncomplete="PF('dlgInativarSetor').hide();"
+                                     update=":msgGlobal :frmSetor:tblSetor" />
+                    <p:commandButton value="Cancelar"
+                                     onclick="PF('dlgInativarSetor').hide();" />
+                </h:panelGrid>
+            </h:form>
+        </p:dialog>
+    </ui:define>
+
+    <ui:define name="footerCss">
+    </ui:define>    
+    <ui:define name="footerJs">
+    </ui:define>    
+
+
+
+</ui:composition>

@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                template="/templates/layout.xhtml">
+
+    <ui:define name="headerCss">
+    </ui:define>    
+    <ui:define name="headerJs">
+    </ui:define>    
+
+
+
+    <ui:define name="menutop">
+        <ui:include src="/includes/menutop.xhtml" />
+    </ui:define>
+
+    <ui:define name="container">
+
+        <h:form id="frmProblemas">
+            <p:dataTable id="tblProblemas" reflow="true" rows="10"
+                         widgetVar="tblWProblemas" paginator="true"
+                         filteredValue="#{MBProblemas.problemasPesq}"
+                         emptyMessage="Nenhum registro encontrado"
+                         value="#{MBProblemas.problemas}" var="obj">
+                <f:facet name="header">Lista Problemas</f:facet>
+                <p:column headerText="ID" sortBy="#{obj.prob_id}"
+                          filterMatchMode="contains" filterBy="#{obj.prob_id}">
+                    <h:outputText value="#{obj.prob_id}" />
+                </p:column>
+                <p:column headerText="Problemas" sortBy="#{obj.descricao}"
+                          filterMatchMode="contains" filterBy="#{obj.descricao}">
+                    <h:outputText value="#{obj.descricao}" />
+                </p:column>
+
+                <p:column headerText="Setor" sortBy="#{obj.setor.sistema}"
+                          filterMatchMode="contains" filterBy="#{obj.setor.sistema}">
+                    <h:outputText value="#{obj.setor.sistema}" />
+                </p:column>
+
+                <p:column headerText="Opções">
+					<p:commandButton icon="ui-icon-trash"
+						oncomplete="PF('dlgInativarProblemas').show();"
+						update=":frmInativarProblemas:pnlInativarProblemas">
+						<f:setPropertyActionListener value="#{obj}"
+                                                                             target="#{MBProblemas.problema}"></f:setPropertyActionListener>
+					</p:commandButton>
+					<p:commandButton icon="ui-icon-pencil"
+						oncomplete="PF('dlgProblemasCad').show();"
+						update=":frmProblemasCad:pnlProblemasCad">
+						<f:setPropertyActionListener value="#{obj}"
+                                                                                 target="#{MBProblemas.problema}"></f:setPropertyActionListener>
+					</p:commandButton>
+		</p:column>
+                
+                
+                <f:facet name="footer">
+                    <p:commandButton value="Novo Registro"
+                                     actionListener="#{MBProblemas.inserir()}"
+                                     oncomplete="PF('dlgProblemasCad').show();"
+                                     update=":frmProblemasCad:pnlProblemasCad"/>
+
+                </f:facet>
+            </p:dataTable>
+        </h:form>
+        <p:dialog id="dlgProblemasCad" widgetVar="dlgProblemasCad"
+                  closable="false" resizable="false" draggable="false" modal="true"
+                  appendTo="@(body)" header="Cadastrar / Alterar Problemas">
+            <h:form id="frmProblemasCad">
+                <h:panelGrid id="pnlProblemasCad" columns="2">
+                    <h:outputLabel value="ID:" />
+                    <h:outputText value="#{MBProblemas.problema.prob_id}" />
+                    <h:outputLabel value="Problemas" />
+                    <h:inputText size="50" maxlength="100"
+                                 value="#{MBProblemas.problema.descricao}" />
+                </h:panelGrid>
+                <h:panelGrid columns="2">
+                    <p:commandButton id="brnGravarProblemas" value="Gravar" ajax="true"
+                                     actionListener="#{MBProblemas.gravar()}"
+                                     oncomplete="PF('dlgProblemasCad').hide();"
+                                     update=":msgGlobal :frmProblemas:tblProblemas" />
+                    <p:commandButton value="Cancelar"
+                                     onclick="PF('dlgProblemasCad').hide();" />
+                </h:panelGrid>
+            </h:form>
+        </p:dialog>
+
+        <p:dialog id="dlgInativarProblemas" widgetVar="dlgInativarProblemas"
+                  closable="false" resizable="false" draggable="false" modal="true"
+                  appendTo="@(body)" header="Inativar">
+            <h:form id="frmInativarProblemas">
+                <h:panelGrid id="pnlInativarProblemas" columns="2">
+                    <h:outputText value="ID:" />
+                    <h:outputText value="#{MBProblemas.problema.prob_id}" />
+                    <h:outputText value="Descrição:" />
+                    <h:outputText value="#{MBProblemas.problema.descricao}" />
+                </h:panelGrid>
+                <h:panelGrid columns="2">
+                    <p:commandButton id="brnConfirmarInativar" value="Confirmar"
+                                     actionListener="#{MBProblemas.executarExcluir()}"
+                                     oncomplete="PF('dlgInativarProblemas').hide();"
+                                     update=":msgGlobal :frmProblemas:tblProblemas" />
+                    <p:commandButton value="Cancelar"
+                                     onclick="PF('dlgInativarProblemas').hide();" />
+                </h:panelGrid>
+            </h:form>
+        </p:dialog>
+    </ui:define>
+
+    <ui:define name="footerCss">
+    </ui:define>    
+    <ui:define name="footerJs">
+    </ui:define>
+</ui:composition>

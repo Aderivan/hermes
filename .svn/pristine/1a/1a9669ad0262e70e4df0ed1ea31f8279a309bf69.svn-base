@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                template="/templates/layout.xhtml">
+
+    <ui:define name="headerCss">
+    </ui:define>    
+    <ui:define name="headerJs">
+    </ui:define>    
+
+
+
+    <ui:define name="menutop">
+        <ui:include src="/includes/menutop.xhtml" />
+    </ui:define>
+
+    <ui:define name="container">
+
+        <h:form id="frmOcorrencias">            
+            <h:outputLabel value="Problema: " />
+            <p:autoComplete dropdown="true" 
+                            value="#{MBOcorrencia.ocorrencia.problema}" />
+
+            <p:dialog header="Values" resizable="false" showEffect="fade" widgetVar="dlg">
+                <p:panelGrid id="output" columns="2" columnClasses="label, value">
+
+                    <h:outputText value="Dropdown:" />
+                    <h:outputText value="#{MBOcorrencia.ocorrencia.problema}" />
+                </p:panelGrid>
+            </p:dialog>
+
+
+        </h:form>
+
+
+    </ui:define>
+
+    <ui:define name="footerCss">
+    </ui:define>    
+    <ui:define name="footerJs">
+    </ui:define>    
+
+
+
+</ui:composition>

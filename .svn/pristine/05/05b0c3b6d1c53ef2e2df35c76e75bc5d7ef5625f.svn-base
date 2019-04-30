@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
+	<meta charset="UTF-8" />
+	<title>Pagina de Error</title>
+
+	<h:outputStylesheet library="css" name="layout.css" />
+
+</h:head>
+
+<h:body>
+	<h:form>
+		<p:panel id="errorPnl" style="width: 50%; margin: 0 auto;">
+			<h:panelGrid id="errorPanel" columns="1" cellpadding="10">
+				<h:graphicImage library="image" name="loader.gif"
+					style="width: 200px; height: 200px; float: left;" />
+				<h:outputText
+					value="Opps!!!, ocorreu um erro interno neste programa. Por favor
+					entre em contato com o suporte técnico." />
+				<h:outputText
+					value="Se instruído por nossa equipe de suporte, copie e cole o
+					seguinte relatório em uma mensagem de email." /> 
+				<h:inputTextarea value="#{MBError.stackTrace}" style="width: 100%; height: 160px; "
+					readonly="true" />
+			</h:panelGrid>
+			<h:panelGrid columns="1" cellpadding="10" width="100%">
+				<p:commandButton value="Home"
+					actionListener="#{MBIndex.paginaInicial}" />
+			</h:panelGrid>
+		</p:panel>
+	</h:form>
+</h:body>
+</html>

@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                template="/templates/layout.xhtml">
+
+    <ui:define name="headerCss">
+    </ui:define>    
+    <ui:define name="headerJs">
+    </ui:define>    
+
+
+
+    <ui:define name="menutop">
+        <ui:include src="/includes/menutop.xhtml" />
+    </ui:define>
+
+    <ui:define name="container">
+
+        <h:form id="frmInstituicoes">
+            <p:dataTable id="tblInstituicoes" reflow="true" rows="10"
+                         widgetVar="tblWInstituicoes" paginator="true"
+                         filteredValue="#{MBInstituicao.instituicoesPesq}"
+                         emptyMessage="Nenhum registro encontrado"
+                         value="#{MBInstituicao.instituicoes}" var="obj">
+                <f:facet name="header">Lista Cliente</f:facet>
+                <p:column headerText="ID" sortBy="#{obj.instcod}"
+                          filterMatchMode="contains" filterBy="#{obj.instcod}">
+                    <h:outputText value="#{obj.instcod}" />
+                </p:column>
+                <p:column headerText="CNPJ" sortBy="#{obj.instcnpj}"
+                          filterMatchMode="contains" filterBy="#{obj.instcnpj}">
+                    <h:outputText value="#{obj.instcnpj}" />
+                </p:column>
+                <p:column headerText="Nome" sortBy="#{obj.instnome}"
+                          filterMatchMode="contains" filterBy="#{obj.instnome}">
+                    <h:outputText value="#{obj.instnome}" />
+                </p:column>
+                <p:column headerText="Razão Social" sortBy="#{obj.razaosocial}"
+                          filterMatchMode="contains" filterBy="#{obj.razaosocial}">
+                    <h:outputText value="#{obj.razaosocial}" />
+                </p:column>
+                <p:column headerText="Fone" sortBy="#{obj.fone}"
+                          filterMatchMode="contains" filterBy="#{obj.fone}">
+                    <h:outputText value="#{obj.fone}" />
+                </p:column>
+                <p:column headerText="E-mail" sortBy="#{obj.email}"
+                          filterMatchMode="contains" filterBy="#{obj.email}">
+                    <h:outputText value="#{obj.email}" />
+                </p:column>
+           
+                <p:column headerText="Opções">
+					<p:commandButton icon="ui-icon-trash"
+						oncomplete="PF('dlgInativarInstituicoes').show();"
+						update=":frmInativarInstituicoes:pnlInativarInstituicoes">
+						<f:setPropertyActionListener value="#{obj}"
+                                                                             target="#{MBInstituicao.instituicao}"></f:setPropertyActionListener>
+					</p:commandButton>
+					<p:commandButton icon="ui-icon-pencil"
+						oncomplete="PF('dlgInstituicoesCad').show();"
+						update=":frmInstituicoesCad:pnlInstituicoesCad">
+						<f:setPropertyActionListener value="#{obj}"
+                                                                             target="#{MBInstituicao.instituicao}"></f:setPropertyActionListener>
+					</p:commandButton>
+				</p:column>
+                
+                
+                <f:facet name="footer">
+                    <p:commandButton value="Novo Registro"
+                                     actionListener="#{MBInstituicao.inserir()}"
+                                     oncomplete="PF('dlgInstituicoesCad').show();"
+                                     update=":frmInstituicoesCad:pnlInstituicoesCad"/>
+
+                </f:facet>
+            </p:dataTable>
+        </h:form>
+        <p:dialog id="dlgInstituicoesCad" widgetVar="dlgInstituicoesCad"
+                  closable="false" resizable="false" draggable="false" modal="true"
+                  appendTo="@(body)" header="Cadastrar / Alterar Clientes">
+            <h:form id="frmInstituicoesCad">
+                <h:panelGrid id="pnlInstituicoesCad" columns="2">
+                    <h:outputLabel value="ID" />
+                    <h:outputText value="#{MBInstituicao.instituicao.instcod}" />
+                    <h:outputLabel value="CNPJ" />
+                    <h:inputText size="50" maxlength="14"
+                                 value="#{MBInstituicao.instituicao.instcnpj}" />
+                    <h:outputLabel value="IE" />
+                    <h:inputText size="50" maxlength="14"
+                                 value="#{MBInstituicao.instituicao.instie}" />
+                    <h:outputLabel value="Razão Social" />
+                    <h:inputText size="50" maxlength="60"
+                                 value="#{MBInstituicao.instituicao.razaosocial}" />
+                    <h:outputLabel value="Nome" />
+                    <h:inputText size="50" maxlength="30"
+                                 value="#{MBInstituicao.instituicao.instnome}" />
+                    <h:outputLabel value="CEP" />
+                    <h:inputText size="50" maxlength="9"
+                                 value="#{MBInstituicao.instituicao.cep}" />
+                    <h:outputLabel value="Logradouro" />
+                    <h:inputText size="50" maxlength="100"
+                                 value="#{MBInstituicao.instituicao.logradrouro}" />
+                    <h:outputLabel value="Número" />
+                    <h:inputText size="50" maxlength="10"
+                                 value="#{MBInstituicao.instituicao.numero}" />
+                    <h:outputLabel value="Bairro" />
+                    <h:inputText size="50" maxlength="100"
+                                 value="#{MBInstituicao.instituicao.bairro}" />
+                    <h:outputLabel value="Cidade" />
+                    <h:inputText size="50" maxlength="100"
+                                 value="#{MBInstituicao.instituicao.cidade}" />
+                    <h:outputLabel value="UF" />
+                    <h:inputText size="50" maxlength="2"
+                                 value="#{MBInstituicao.instituicao.uf}" />
+                    <h:outputLabel value="Telefone" />
+                    <h:inputText size="50" maxlength="15"
+                                 value="#{MBInstituicao.instituicao.fone}" />
+                    <h:outputLabel value="E-mail" />
+                    <h:inputText size="50" maxlength="30"
+                                 value="#{MBInstituicao.instituicao.email}" />
+                    <h:outputLabel value="Contato" />
+                    <h:inputText size="50" maxlength="30"
+                                 value="#{MBInstituicao.instituicao.contato}" />
+                    <h:outputLabel value="Telefone (Contato)" />
+                    <h:inputText size="50" maxlength="15"
+                                 value="#{MBInstituicao.instituicao.contatofone}" />
+                    <h:outputLabel value="E-mail (Contato)" />
+                    <h:inputText size="50" maxlength="30"
+                                 value="#{MBInstituicao.instituicao.contemail}" />
+                    <h:outputLabel value="Quantidade de Estações / Usuários" />
+                    <h:inputText size="25" maxlength="3"
+                                 value="#{MBInstituicao.instituicao.instqtdestacoes}" />
+                    <h:outputLabel value="Chave Dinâmica" />
+                    <h:inputText size="50" maxlength="40"
+                                 value="#{MBInstituicao.instituicao.instchavedinamica}" />
+                    <h:outputLabel value="Tipo de Contrato" />
+                    <h:inputText size="50" maxlength="1"
+                                 value="#{MBInstituicao.instituicao.insttipocontrato}" />
+                    <h:outputLabel value="Dia de Vencimento" />
+                    <h:inputText size="50" maxlength="3"
+                                 value="#{MBInstituicao.instituicao.instdiavencimento}" />
+                    <h:outputLabel value="Equipe" />
+                    <h:inputText size="50" maxlength="1"
+                                 value="#{MBInstituicao.instituicao.equipe}" />
+                    <h:outputLabel value="Setor (Equipe)" />
+                    <h:inputText size="50" maxlength="1"
+                                 value="#{MBInstituicao.instituicao.setorEquipe}" />
+                    <h:outputLabel value="Segmento" />
+                    <h:inputText size="50" maxlength="11"
+                                 value="#{MBInstituicao.instituicao.codseg}" />
+                    <h:outputLabel value="Empresa Matriz" />
+                    <h:inputText size="50" maxlength="11"
+                                 value="#{MBInstituicao.instituicao.codmatriz}" />
+                </h:panelGrid>
+                <h:panelGrid columns="2">
+                    <p:commandButton id="brnGravarInstituicoes" value="Gravar" ajax="true"
+                                     actionListener="#{MBInstituicao.gravar()}"
+                                     oncomplete="PF('dlgInstituicoesCad').hide();"
+                                     update=":msgGlobal :frmInstituicoes:tblInstituicoes" />
+                    <p:commandButton value="Cancelar"
+                                     onclick="PF('dlgInstituicoesCad').hide();" />
+                </h:panelGrid>
+            </h:form>
+        </p:dialog>
+
+        <p:dialog id="dlgInativarInstituicoes" widgetVar="dlgInativarInstituicoes"
+                  closable="false" resizable="false" draggable="false" modal="true"
+                  appendTo="@(body)" header="Inativar Cliente">
+            <h:form id="frmInativarInstituicoes">
+                <h:panelGrid id="pnlInativarInstituicoes" columns="2">
+                    <h:outputText value="ID" />
+                    <h:outputText value="#{MBInstituicao.instituicao}" />
+                    <h:outputText value="CNPJ" />
+                    <h:outputText value="#{MBInstituicao.instituicao.instcnpj}" />
+                    <h:outputText value="Razão Social" />
+                    <h:outputText value="#{MBInstituicao.instituicao.razaosocial}" />
+                    <h:outputText value="Nome" />
+                    <h:outputText value="#{MBInstituicao.instituicao.instnome}" />
+                </h:panelGrid>
+                <h:panelGrid columns="2">
+                    <p:commandButton id="brnConfirmarInativar" value="Confirmar"
+                                     actionListener="#{MBInstituicao.executarInativar()}"
+                                     oncomplete="PF('dlgInativarInstituicoes').hide();"
+                                     update=":msgGlobal :frmInstituicoes:tblInstituicoes" />
+                    <p:commandButton value="Cancelar"
+                                     onclick="PF('dlgInativarInstituicoes').hide();" />
+                </h:panelGrid>
+            </h:form>
+        </p:dialog>
+    </ui:define>
+
+    <ui:define name="footerCss">
+    </ui:define>    
+    <ui:define name="footerJs">
+    </ui:define>
+</ui:composition>

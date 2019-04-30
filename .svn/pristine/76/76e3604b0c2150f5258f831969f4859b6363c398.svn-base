@@ -1,0 +1,22 @@
+package br.com.apsinformatica.domain;
+
+public enum Equipe {
+	A("A"),
+	B("B"),
+	C("C"),
+	D("D"),
+	F("F"),
+	S("S");
+	
+	private String descricao;
+	
+	Equipe (String value) {
+		this.descricao = value;
+	}
+
+	public String getDescricao() {
+		return descricao;
+	}
+	
+	
+}

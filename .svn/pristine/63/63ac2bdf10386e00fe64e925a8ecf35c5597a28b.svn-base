@@ -1,0 +1,73 @@
+package br.com.apsinformatica.dao;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import br.com.apsinformatica.domain.SoftwarePerfil;
+
+/**
+ *
+ * @author Montezuma
+ */
+public class SoftwarePerfilDao extends MyDao {
+
+    public List<SoftwarePerfil> getListar() {
+        List<SoftwarePerfil> lista = new ArrayList<SoftwarePerfil>();
+        try {
+            open();
+            lista = getEntityManager().createQuery("select u from SoftwarePerfil u").getResultList();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            close();
+        }
+        return lista;
+    }
+
+    public SoftwarePerfil getListaPorId(String uId) {
+        SoftwarePerfil entidade = null;
+        try {
+            open();
+            entidade = getEntityManager().find(SoftwarePerfil.class, uId);
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            close();
+        }
+        return entidade;
+    }
+
+    public void inserir(SoftwarePerfil pSoftwarePerfil) {
+        try {
+            open();
+            persist(pSoftwarePerfil);
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            close();
+        }
+    }
+
+    public void atualizar(SoftwarePerfil pSoftwarePerfil) {
+        try {
+            open();
+            merge(pSoftwarePerfil);
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            close();
+        }
+    }
+
+    public void remover(SoftwarePerfil pSoftwarePerfil) {
+        try {
+            open();
+            remove(pSoftwarePerfil);
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            close();
+        }
+    }
+
+}

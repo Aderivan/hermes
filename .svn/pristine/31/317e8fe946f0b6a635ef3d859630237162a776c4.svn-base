@@ -1,0 +1,74 @@
+package br.com.apsinformatica.dao;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import br.com.apsinformatica.domain.Login;
+import br.com.apsinformatica.domain.Usuario;
+import br.com.apsinformatica.infra.SecurityUtil;
+
+/**
+ *
+ * @author Montezuma
+ */
+public class UsuarioDao extends MyDao {
+
+    public Login getAutenticarUsuario(String pUsulogin, String pUsusenha) {
+        Login u = new Login();
+        List<Usuario> lista = new ArrayList<Usuario>();
+        try {
+            open();
+            lista = getEntityManager()
+                    .createQuery(
+                            "select u from Usuario u where u.flagativo = 1 and u.login = :login and u.password = :password")
+                    .setParameter("login", pUsulogin.toUpperCase()).setParameter("password", SecurityUtil.MD5(pUsusenha))
+                    .getResultList();
+            if (lista.size() > 0) {
+                u.setUsuario(lista.get(0).getLogin());
+                u.setNome(lista.get(0).getNome());
+                u.setEmail(lista.get(0).getEmail());
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            close();
+        }
+        return u;
+    }
+
+    public List<Usuario> getListar() {
+        List<Usuario> lista = new ArrayList<Usuario>();
+        try {
+            open();
+            lista = getEntityManager().createQuery("select u from Usuario u").getResultList();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            close();
+        }
+        return lista;
+    }
+
+    public Usuario getListaPorId(String uId) {
+        Usuario entidade = null;
+        try {
+            open();
+            entidade = getEntityManager().find(Usuario.class, uId);
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            close();
+        }
+
+        return entidade;
+    }
+
+    public void inserir(Usuario pUsuario) {
+        persist(pUsuario);
+    }
+
+    public void atualizar(Usuario pUsuario) {
+        merge(pUsuario);
+    }
+
+}

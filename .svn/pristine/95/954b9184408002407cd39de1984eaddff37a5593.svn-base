@@ -1,0 +1,37 @@
+package br.com.apsinformatica.domain;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+@Entity
+@Table(name = "softwares")
+public class Software implements java.io.Serializable {
+
+	@Id
+	@GeneratedValue
+	@Column(name = "soft_cod")
+	private Integer softcod;
+
+	@Column(name = "soft_desc")
+	private Integer softdesc;
+
+	public Integer getSoftcod() {
+		return softcod;
+	}
+
+	public void setSoftcod(Integer softcod) {
+		this.softcod = softcod;
+	}
+
+	public Integer getSoftdesc() {
+		return softdesc;
+	}
+
+	public void setSoftdesc(Integer softdesc) {
+		this.softdesc = softdesc;
+	}
+
+}

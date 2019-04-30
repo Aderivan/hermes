@@ -1,0 +1,64 @@
+package br.com.apsinformatica.dao;
+
+import java.sql.Connection;
+import java.sql.SQLException;
+
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
+import org.eclipse.persistence.internal.jpa.EntityManagerImpl;
+
+public abstract class FbDao {
+
+    private EntityManager mng;
+    private EntityManagerFactory fct;
+    private Connection connJdbc;
+
+    private EntityManagerFactory getEntityFactory() {
+        fct = Persistence.createEntityManagerFactory("fbconnection");
+        return fct;
+    }
+
+    public void open() {
+        mng = getEntityFactory().createEntityManager();
+    }
+
+    public EntityManager getEntityManager() {
+        return mng;
+    }
+
+    public Connection getConnectionJDBC() {
+        connJdbc = ((EntityManagerImpl) (mng.getDelegate())).getServerSession().getAccessor().getConnection();
+        return connJdbc;
+    }
+
+    public void beginTransaction() {
+        mng.getTransaction().begin();
+    }
+
+    public void commit() {
+        mng.getTransaction().commit();
+    }
+
+    public void rollback() {
+        mng.getTransaction().rollback();
+    }
+
+    public void close() {
+        try {
+            if ((connJdbc != null) && (!connJdbc.isClosed())) {
+                connJdbc.close();
+            }
+        } catch (SQLException e) {
+        }
+
+        if (mng.isOpen()) {
+            mng.close();
+        }
+        if (fct.isOpen()) {
+            fct.close();
+        }
+
+    }
+
+}

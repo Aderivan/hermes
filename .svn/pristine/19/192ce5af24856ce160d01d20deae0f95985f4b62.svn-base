@@ -1,0 +1,28 @@
+package br.com.apsinformatica.infra;
+
+import java.io.IOException;
+
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
+
+public class JSFUtil {
+
+	public static void addMsgSucesso(String msg) {
+		FacesMessage fMessage = new FacesMessage(FacesMessage.SEVERITY_INFO, msg, "Informações");
+		FacesContext.getCurrentInstance().addMessage(null, fMessage);
+	}
+
+	public static void addMsgError(String msg) {
+		FacesMessage fMessage = new FacesMessage(FacesMessage.SEVERITY_ERROR, msg, "Error");
+		FacesContext.getCurrentInstance().addMessage(null, fMessage);
+	}
+
+	public static void addMsgAviso(String msg) {
+		FacesMessage fMessage = new FacesMessage(FacesMessage.SEVERITY_WARN, msg, "Aviso");
+		FacesContext.getCurrentInstance().addMessage(null, fMessage);
+	}
+
+	public static void redirecionar(String pPage) throws IOException {
+		FacesContext.getCurrentInstance().getExternalContext().redirect(pPage);
+	}
+}

@@ -1,0 +1,203 @@
+package br.com.apsinformatica.domain;
+
+import java.util.Date;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+import javax.persistence.Transient;
+
+
+@Entity
+@Table(name = "usuarios")
+public class Usuario implements java.io.Serializable {
+	@Id
+	@Column(name="user_id")
+	@GeneratedValue
+	private Integer userid;
+	@Column(name="login")
+	private String login;
+	@Column(name="nome")
+	private String nome;
+	@Column(name="password")
+	private String password;
+	@Column(name="data_inc")
+	@Temporal(TemporalType.TIMESTAMP)
+	private Date datainc;
+	@Column(name="data_admis")
+	@Temporal(TemporalType.TIMESTAMP)
+	private Date dataadmis;
+	@Column(name="email")
+	private String email;
+	@Column(name="fone")
+	private String fone;
+	@Column(name="nivel")
+	private String nivel;
+	@Column(name="AREA")
+	private String area;
+	@Column(name="user_admin")
+	private Integer useradmin;
+	@Column(name="naoenchamdo")
+	private String naoenchamdo;
+	@Column(name="equipe")
+	private String equipe;
+	@Column(name="dtenvio")
+	@Temporal(TemporalType.TIMESTAMP)
+	private Date dtenvio;
+	@Column(name="flagativo")
+	private Integer flagativo;
+	
+	/**
+	 * Campos Não persistentes
+	 */
+	@Transient
+	private Integer booFlagativo;
+	@Transient
+	private Integer booUseradmin;
+		
+	public Usuario() {
+
+	}
+
+	public Integer getUserid() {
+		return userid;
+	}
+
+	public void setUserid(Integer userid) {
+		this.userid = userid;
+	}
+
+	public String getLogin() {
+		return login;
+	}
+
+	public void setLogin(String login) {
+		this.login = login;
+	}
+
+	public String getNome() {
+		return nome;
+	}
+
+	public void setNome(String nome) {
+		this.nome = nome;
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
+	public Date getDatainc() {
+		return datainc;
+	}
+
+	public void setDatainc(Date datainc) {
+		this.datainc = datainc;
+	}
+
+	public Date getDataadmis() {
+		return dataadmis;
+	}
+
+	public void setDataadmis(Date dataadmis) {
+		this.dataadmis = dataadmis;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	public String getFone() {
+		return fone;
+	}
+
+	public void setFone(String fone) {
+		this.fone = fone;
+	}
+
+	public String getNivel() {
+		return nivel;
+	}
+
+	public void setNivel(String nivel) {
+		this.nivel = nivel;
+	}
+
+	public String getArea() {
+		return area;
+	}
+
+	public void setArea(String area) {
+		this.area = area;
+	}
+
+	public Integer getUseradmin() {
+		return useradmin;
+	}
+
+	public void setUseradmin(Integer useradmin) {
+		this.useradmin = useradmin;
+	}
+
+	public String getNaoenchamdo() {
+		return naoenchamdo;
+	}
+
+	public void setNaoenchamdo(String naoenchamdo) {
+		this.naoenchamdo = naoenchamdo;
+	}
+
+	public String getEquipe() {
+		return equipe;
+	}
+
+	public void setEquipe(String equipe) {
+		this.equipe = equipe;
+	}
+
+	public Date getDtenvio() {
+		return dtenvio;
+	}
+
+	public void setDtenvio(Date dtenvio) {
+		this.dtenvio = dtenvio;
+	}
+
+	public Integer getFlagativo() {
+		return flagativo;
+	}
+
+	public void setFlagativo(Integer flagativo) {
+		this.flagativo = flagativo;
+	}
+
+	public Integer getBooFlagativo() {
+		return booFlagativo;
+	}
+
+	public void setBooFlagativo(Integer booFlagativo) {
+		this.booFlagativo = booFlagativo;
+	}
+
+	public Integer getBooUseradmin() {
+		return booUseradmin;
+	}
+
+	public void setBooUseradmin(Integer booUseradmin) {
+		this.booUseradmin = booUseradmin;
+	}	
+	
+	
+}

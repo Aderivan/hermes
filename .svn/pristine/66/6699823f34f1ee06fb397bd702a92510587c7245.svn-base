@@ -1,0 +1,48 @@
+package br.com.apsinformatica.dao;
+
+import br.com.apsinformatica.domain.SoftwareModulos;
+import br.com.apsinformatica.domain.Usuario;
+import java.util.ArrayList;
+import java.util.List;
+
+/**
+ *
+ * @author Dan
+ */
+public class softwareModulosDao {
+
+    public List<SoftwareModulos> getListar() {
+        List<SoftwareModulos> lista = new ArrayList<SoftwareModulos>();
+        try {
+            MyDao.instance().createEntityManager();
+            lista = MyDao.instance().getEntityManager().createQuery("select m from SoftwareModulos m").getResultList();
+        } finally {
+            MyDao.instance().close();
+        }
+        return lista;
+    }
+
+    public SoftwareModulos getListaPorId(String uId) {
+
+        SoftwareModulos entidade = new SoftwareModulos();
+        try {
+            MyDao.instance().createEntityManager();
+            entidade = MyDao.instance().getEntityManager().find(SoftwareModulos.class, uId);
+        } finally {
+            MyDao.instance().close();
+        }
+        return entidade;
+    }
+
+    public void inserir(SoftwareModulos pSoftwareModulos) {
+        MyDao.instance().persist(pSoftwareModulos);
+    }
+
+    public void atualizar(SoftwareModulos pSoftwareModulos) {
+        MyDao.instance().merge(pSoftwareModulos);
+    }
+
+    public void remove(SoftwareModulos pSoftwareModulos) {
+        MyDao.instance().remove(pSoftwareModulos);
+    }
+}

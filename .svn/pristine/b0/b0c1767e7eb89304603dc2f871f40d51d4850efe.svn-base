@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                template="/templates/layout.xhtml">
+
+    <ui:define name="menutop">
+        <ui:include src="/includes/menutop.xhtml" />
+    </ui:define>
+
+    <ui:define name="container">
+        <h:form id="frmSoftwares">
+            <p:dataTable id="tblSoftwares" reflow="true" rows="10"
+                         widgetVar="tblWSoftwares" paginator="true"
+                         filteredValue="#{MBSoftware.softwaresPesq}"
+                         emptyMessage="Nenhum registro encontrado"
+                         value="#{MBSoftware.softwares}" var="obj">
+                <f:facet name="header">Lista de Software</f:facet>
+                <p:column headerText="ID" sortBy="#{obj.softcod}"
+                          filterMatchMode="contains" filterBy="#{obj.softcod}">
+                    <h:outputText value="#{obj.softcod}" />
+                </p:column>
+                <p:column headerText="Descrição" sortBy="#{obj.softdesc}"
+                          filterMatchMode="contains" filterBy="#{obj.softdesc}">
+                    <h:outputText value="#{obj.softdesc}" />
+                </p:column>                
+                <p:column headerText="Opções">
+                    <p:commandButton icon="ui-icon-trash"
+                                     oncomplete="PF('dlgExcluirSoftware').show();"
+                                     update=":frmExcluirSoftware:pnlExcluirSoftware">
+                        <f:setPropertyActionListener value="#{obj}"
+                                                     target="#{MBSoftware.software}"></f:setPropertyActionListener>
+                    </p:commandButton>
+                    <p:commandButton icon="ui-icon-pencil"
+                                     oncomplete="PF('dlgSoftwareCad').show();"
+                                     update=":frmSoftwareCad:pnlSoftwareCad">
+                        <f:setPropertyActionListener value="#{obj}"
+                                                     target="#{MBSoftware.software}"></f:setPropertyActionListener>
+                    </p:commandButton>
+                </p:column>
+                <f:facet name="footer">
+                    <p:commandButton value="Novo Registro"
+                                     actionListener="#{MBSoftware.inserir}"
+                                     oncomplete="PF('dlgSoftwareCad').show();"
+                                     update=":frmSoftwareCad:pnlSoftwareCad" />
+                </f:facet>
+            </p:dataTable>
+        </h:form>
+        <p:dialog id="dlgSoftwareCad" widgetVar="dlgSoftwareCad"
+                  closable="false" resizable="false" draggable="false" modal="true"
+                  appendTo="@(body)" header="Cadastrar / Alterar Software">
+            <h:form id="frmSoftwareCad">
+                <h:panelGrid id="pnlSoftwareCad" columns="2">
+                    <h:outputLabel value="Sigla:" />
+                    <h:outputText value="#{MBSoftware.software.softcod}" />
+                    <h:outputLabel value="Descrição:" />
+                    <h:inputText size="50" maxlength="100"
+                                 value="#{MBSoftware.software.softdesc}" />                         
+                </h:panelGrid>
+                <h:panelGrid columns="2">
+                    <p:commandButton id="brnGravarSoftware" value="Gravar"
+                                     ajax="true"
+                                     actionListener="#{MBSoftware.gravar}"						
+                                     oncomplete="PF('dlgSoftwareCad').hide();"
+                                     update=":msgGlobal :frmSoftwares:tblSoftwares" />
+                    <p:commandButton value="Cancelar"
+                                     onclick="PF('dlgSoftwareCad').hide();" />
+                </h:panelGrid>
+            </h:form>
+        </p:dialog>
+
+        <p:dialog id="dlgExcluirSoftware" widgetVar="dlgExcluirSoftware"
+                  closable="false" resizable="false" draggable="false" modal="true"
+                  appendTo="@(body)" header="Excluir">
+            <h:form id="frmExcluirSoftware">
+                <h:panelGrid id="pnlExcluirSoftware" columns="2">
+                    <h:outputText value="ID:" />
+                    <h:outputText value="#{MBSoftware.software.softcod}" />
+                    <h:outputText value="Descrição:" />
+                    <h:outputText value="#{MBSoftware.software.softdesc}" />
+                </h:panelGrid>
+                <h:panelGrid columns="2">
+                    <p:commandButton id="brnConfirmarExcluir" value="Confirmar"
+                                     actionListener="#{MBSoftware.executarExcluir}"
+                                     oncomplete="PF('dlgExcluirSoftware').hide();"
+                                     update=":msgGlobal :frmSoftwares:tblSoftwares" />
+                    <p:commandButton value="Cancelar"
+                                     onclick="PF('dlgExcluirSoftware').hide();" />
+                </h:panelGrid>
+            </h:form>
+        </p:dialog>
+    </ui:define>
+</ui:composition>

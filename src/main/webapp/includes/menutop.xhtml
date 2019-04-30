@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+
+	<h:form>
+		<p:panelMenu>
+			<p:submenu label="Atendimento" >
+				<p:menuitem value="Abrir chamado"
+                                            icon="fa-angle-right" outcome="/pages/ocorrencias.xhtml" />
+				<p:menuitem value="Consultar"
+					 icon="fa-angle-right" />
+				<p:menuitem value="Busca rápida"
+					 icon="fa-angle-right" />
+				<p:menuitem value="Pesquisar cliente"
+					 icon="fa-angle-right" />
+			</p:submenu>
+			
+			<p:submenu label="Painel" >
+				<p:menuitem value="Suporte A-1"
+					  icon="fa-angle-right" />
+				<p:menuitem value="Suporte A-2"
+					  icon="fa-angle-right" />
+				<p:menuitem value="Suporte A-3"
+					  icon="fa-angle-right" />
+				<p:menuitem value="Suporte B"
+					  icon="fa-angle-right" />
+				<p:menuitem value="Suporte C"
+					  icon="fa-angle-right" />
+				<p:menuitem value="Suporte F"
+					  icon="fa-angle-right" />
+				<p:menuitem value="Suporte S"
+					  icon="fa-angle-right" />
+				<p:menuitem value="Implantação"
+					  icon="fa-angle-right" />
+				<p:menuitem value="Fábrica"
+					  icon="fa-angle-right" />
+			</p:submenu>
+			
+			
+			<p:submenu label="Admin" >
+				<p:menuitem value="Setor" icon="fa-angle-right" outcome="/pages/setor.xhtml" />
+				<p:menuitem value="Problema" icon="fa-angle-right" outcome="/pages/problemas.xhtml" />
+				<p:menuitem value="Status" icon="fa-angle-right" outcome="/pages/status.xhtml" />
+				<p:menuitem value="Software" icon="fa-angle-right" outcome="/pages/software.xhtml"/>
+				<p:menuitem value="Software Perfil" icon="fa-angle-right" outcome="/pages/softwareperfil.xhtml"/>
+				<p:menuitem value="Usuário" icon="fa-angle-right" outcome="/pages/software.xhtml" />
+				<p:menuitem value="Locais" icon="fa-angle-right" />
+				<p:menuitem value="Clientes" icon="fa-angle-right" />
+				<p:menuitem value="Senha" icon="fa-angle-right" />
+                                <p:menuitem value="Modulos" icon="fa-angle-right" outcome="/pages/softmodulos.xhtml" />
+                                
+			</p:submenu>
+		</p:panelMenu>
+	</h:form>
+</ui:composition>

@@ -1,0 +1,52 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package br.com.apsinformatica.domain;
+
+import java.io.Serializable;
+import javax.persistence.Column;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+
+/**
+ *
+ * @author Dan - Web
+ */
+public class SoftwarePerfilMod implements Serializable{
+    @Id
+    @Column(name="idsoftwareperfilmod")
+    @GeneratedValue
+    private Integer idsoftwareperfilmod;
+    @Column(name="idsoftwareperfil")
+    private Integer idsoftwareperfil;
+    @Column(name="idmodulo")
+    private Integer idmodulo;
+
+    public Integer getIdsoftwareperfilmod() {
+        return idsoftwareperfilmod;
+    }
+
+    public void setIdsoftwareperfilmod(Integer idsoftwareperfilmod) {
+        this.idsoftwareperfilmod = idsoftwareperfilmod;
+    }
+
+    public Integer getIdsoftwareperfil() {
+        return idsoftwareperfil;
+    }
+
+    public void setIdsoftwareperfil(Integer idsoftwareperfil) {
+        this.idsoftwareperfil = idsoftwareperfil;
+    }
+
+    public Integer getIdmodulo() {
+        return idmodulo;
+    }
+
+    public void setIdmodulo(Integer idmodulo) {
+        this.idmodulo = idmodulo;
+    }
+    
+    
+}
